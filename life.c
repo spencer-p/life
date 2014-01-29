@@ -102,8 +102,6 @@ int main(int argc, char *argv[]) {
 
     int c, seed = time(NULL), delay = 1000000/20;
     point cursor;
-    cursor.x = 0; 
-    cursor.y = 0;
 
     while ((c = getopt(argc, argv, "whs:l:r:")) != -1) {
         switch (c) {
@@ -135,6 +133,9 @@ int main(int argc, char *argv[]) {
     nodelay(stdscr, true);
 
     srand(seed);
+    
+    cursor.x = MAXX/2; 
+    cursor.y = MAXY/2;
     
     map = malloc(MAXY*sizeof(char*));
     for (int i = 0; i < MAXY; i++) {
