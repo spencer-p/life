@@ -18,3 +18,5 @@ some commands inside the program:
     h/j/k/l - move cursor vi - style
     c - clear the board
     r - randomize the board
+    s - save the board state
+    u - undo to saved board state (initial state is auto saved at start)

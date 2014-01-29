@@ -17,6 +17,7 @@ typedef struct {
 } point;
 
 char **map;
+char **save = NULL;
 
 //wraps around
 char getCharAt(int y, int x) {
@@ -138,8 +139,10 @@ int main(int argc, char *argv[]) {
     cursor.y = MAXY/2;
     
     map = malloc(MAXY*sizeof(char*));
+    save = malloc(MAXY*sizeof(char*));
     for (int i = 0; i < MAXY; i++) {
         map[i] = malloc(MAXX*sizeof(char));
+        save[i] = malloc(MAXX*sizeof(char));
         for (int j = 0; j < MAXX; j++) {
             if (i >= MAXY/4 && i <= 3*(MAXY/4) && j >= MAXX/4 && j <= 3*(MAXX/4) && rand()%4 == 0) {
                 map[i][j] = LIVE;
@@ -147,6 +150,7 @@ int main(int argc, char *argv[]) {
             else {
                 map[i][j] = DEAD;
             }
+            save[i][j] = map[i][j];
         }
     }
 
@@ -190,6 +194,21 @@ int main(int argc, char *argv[]) {
                     }
                 }
                 break;
+            case 's':
+                for (int y = 0; y < MAXY; y++) {
+                    for (int x = 0; x < MAXX; x++) {
+                        save[y][x] = map[y][x];
+                    }
+                }
+                break;
+            case 'u':
+                for (int y = 0; y < MAXY; y++) {
+                    for (int x = 0; x < MAXX; x++) {
+                        map[y][x] = save[y][x];
+                    }
+                }
+                break;
+
         }
         drawMap();
         if (!paused) {
