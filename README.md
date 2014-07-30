@@ -3,12 +3,14 @@ life
 
 a simple command line implementation of conway's game of life with ncurses
 
+![](life.gif)
+
 some command line options:
 
     -w Turn off edge wrapping
     -h Show this help message
     -s [seed] Seed randomization with given number
-    -l [char] Represent live cells with the given character
+    -c [char] Represent live cells with the given character
     -r [rate] Update the game [rate] times per second (0 for no delay)
 
 some commands inside the program:

@@ -104,20 +104,20 @@ int main(int argc, char *argv[]) {
     int c, seed = time(NULL), delay = 1000000/20;
     point cursor;
 
-    while ((c = getopt(argc, argv, "whs:l:r:")) != -1) {
+    while ((c = getopt(argc, argv, "whs:c:r:")) != -1) {
         switch (c) {
             case 'w':
                 wrap = false;
                 break;
             case 'h':
             case '?':
-                printf("%s options:\n  -w Turn off edge wrapping\n  -h Show this message\n  -s [seed] Seed randomization with a given number\n  -l [char] Represent live cells with the given character\n  -r [rate] Update the game [rate] times per second (0 for no delay)\n", argv[0]);
+                printf("%s options:\n  -w Turn off edge wrapping\n  -h Show this message\n  -s [seed] Seed randomization with a given number\n  -c [char] Represent live cells with the given character\n  -r [rate] Update the game [rate] times per second (0 for no delay)\n", argv[0]);
                 return 0;
                 break;
             case 's':
                 seed = atoi(optarg);
                 break;
-            case 'l':
+            case 'c':
                 LIVE = optarg[0];
                 break;
             case 'r':
@@ -132,6 +132,7 @@ int main(int argc, char *argv[]) {
     noecho();
     getmaxyx(stdscr, MAXY, MAXX);
     nodelay(stdscr, true);
+    curs_set(0);
 
     srand(seed);
     
@@ -155,10 +156,11 @@ int main(int argc, char *argv[]) {
     }
 
     while ((c=getch()) != 'q') {
-        flushinp();
         switch(c) {
             case 'p':
-                paused = (paused) ? false : true; break;
+                paused = (paused) ? false : true;
+                curs_set(paused);
+                break;
             case 't':
             case ' ':
                 map[cursor.y][cursor.x] = (map[cursor.y][cursor.x] == LIVE) ? DEAD :  LIVE;
@@ -212,6 +214,7 @@ int main(int argc, char *argv[]) {
         }
         drawMap();
         if (!paused) {
+            flushinp();
             usleep(delay);
             updateMap();
         }
